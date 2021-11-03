@@ -6,18 +6,27 @@ from selenium.webdriver.firefox.options import Options as OptionsFirefox
 
 
 class WebDriverABC(ABC):
-    @staticmethod
+    @classmethod
     @abstractmethod
-    def create_driver(): pass
+    def create_driver(cls): pass
+
+    @classmethod
+    @abstractmethod
+    def get_driver_options(cls): pass
 
 
 class ChomeWebDriver(WebDriverABC):
-    @staticmethod
-    def create_driver():
-        options = OptionsChorme()
-        options.add_argument('--incognito')
+    @classmethod
+    def create_driver(cls):
+        options = cls.get_driver_options()
         driver = Chrome(options=options)
         return driver
+
+    @classmethod
+    def get_driver_options(cls):
+        options = OptionsChorme()
+        options.add_argument('--incognito')
+        return options
 
 
 class FirefoxWebDriver(WebDriverABC):
@@ -28,9 +37,9 @@ class FirefoxWebDriver(WebDriverABC):
 
 class DriverFactory:
     @staticmethod
-    def get_driver(browser_chosen):
-        if browser_chosen == 'chrome':
+    def get_driver(chosen_browser):
+        if chosen_browser == 'chrome':
             return ChomeWebDriver.create_driver()
 
-        if browser_chosen == 'firefox':
+        if chosen_browser == 'firefox':
             return FirefoxWebDriver.create_driver()
