@@ -8,38 +8,41 @@ from selenium.webdriver.firefox.options import Options as OptionsFirefox
 class WebDriverABC(ABC):
     @classmethod
     @abstractmethod
-    def create_driver(cls): pass
+    def create_driver(cls, driver_options: dict): pass
 
     @classmethod
     @abstractmethod
-    def get_driver_options(cls): pass
+    def __get_driver_options(cls, driver_options: dict): pass
 
 
 class ChomeWebDriver(WebDriverABC):
     @classmethod
-    def create_driver(cls):
-        options = cls.get_driver_options()
+    def create_driver(cls, driver_options: dict):
+        options = cls.__get_driver_options(driver_options)
         driver = Chrome(options=options)
         return driver
 
     @classmethod
-    def get_driver_options(cls):
+    def __get_driver_options(cls, driver_options):
         options = OptionsChorme()
-        options.add_argument('--incognito')
+        if driver_options['incognito']:
+            options.add_argument('--incognito')
         return options
 
 
 class FirefoxWebDriver(WebDriverABC):
-    @staticmethod
-    def create_driver():
-        ...
+    @classmethod
+    def create_driver(cls, driver_options: dict): pass
+
+    @classmethod
+    def __get_driver_options(cls, driver_options: dict): pass
 
 
 class DriverFactory:
     @staticmethod
-    def get_driver(chosen_browser):
+    def get_driver(chosen_browser: str, driver_options: dict):
         if chosen_browser == 'chrome':
-            return ChomeWebDriver.create_driver()
+            return ChomeWebDriver.create_driver(driver_options)
 
         if chosen_browser == 'firefox':
-            return FirefoxWebDriver.create_driver()
+            return FirefoxWebDriver.create_driver(driver_options)

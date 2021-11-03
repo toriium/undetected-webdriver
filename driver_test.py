@@ -1,6 +1,9 @@
 from webdriver_factory import DriverFactory
 
-driver = DriverFactory.get_driver(chosen_browser='chrome')
+options = {
+    'incognito': True
+}
+driver = DriverFactory.get_driver(chosen_browser='chrome', driver_options=options)
 
 driver.get('https://www.google.com/')
 
