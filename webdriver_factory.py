@@ -30,9 +30,17 @@ class ChomeWebDriver(WebDriverABC):
 
 
 class FirefoxWebDriver(WebDriverABC):
-    @staticmethod
-    def create_driver():
-        ...
+    @classmethod
+    def create_driver(cls):
+        options = cls.get_driver_options()
+        driver = Firefox(options=options)
+        return driver
+
+    @classmethod
+    def get_driver_options(cls):
+        options = OptionsFirefox()
+        options.add_argument('--incognito')
+        return options
 
 
 class DriverFactory:
