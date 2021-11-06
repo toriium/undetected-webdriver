@@ -25,7 +25,15 @@ class ChomeWebDriver(WebDriverABC):
     @classmethod
     def get_driver_options(cls):
         options = OptionsChorme()
+        # options.add_argument('--headless')
         options.add_argument('--incognito')
+        options.add_argument('--no-sandbox')
+        options.add_argument('--disable-blink-features=AutomationControlled')
+        options.add_argument('--disable-dev-shm-usage')
+        options.add_argument('--disable-extensions')
+        options.add_argument('--disable-gpu')
+        options.add_argument(
+            '--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36')
         return options
 
 
@@ -39,7 +47,15 @@ class FirefoxWebDriver(WebDriverABC):
     @classmethod
     def get_driver_options(cls):
         options = OptionsFirefox()
+        # options.add_argument('--headless')
         options.add_argument('--incognito')
+        options.add_argument('--no-sandbox')
+        options.add_argument('--disable-blink-features=AutomationControlled')
+        options.add_argument('--disable-dev-shm-usage')
+        options.add_argument('--disable-extensions')
+        options.add_argument('--disable-gpu')
+        options.add_argument(
+            '--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36')
         return options
 
 
