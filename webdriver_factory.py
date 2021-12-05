@@ -79,6 +79,7 @@ class FirefoxWebDriver(WebDriverABC):
     @classmethod
     def get_driver_options(cls):
         options = OptionsFirefox()
+        options.binary_location = r'C:\Program Files\Mozilla Firefox\firefox.exe'
         # options.add_argument('--headless')
         options.add_argument('--incognito')
         options.add_argument('--no-sandbox')
@@ -87,8 +88,6 @@ class FirefoxWebDriver(WebDriverABC):
         options.add_argument('--disable-dev-shm-usage')
         options.add_argument('--disable-extensions')
         options.add_argument('--disable-gpu')
-        options.add_experimental_option('useAutomationExtension', False)
-        options.add_experimental_option("excludeSwitches", ["enable-automation"])
         options.add_argument(
             '--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36')
         return options
@@ -108,10 +107,11 @@ class DriverFactory:
 
         # execute scripts in browser to not be detected as bot
         cls.__driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
-        cls.__driver.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {
-            "source":
-                "const newProto = navigator.__proto__;"
-                "delete newProto.webdriver;"
-                "navigator.__proto__ = newProto;"
-        })
+        if chosen_browser != 'firefox':
+            cls.__driver.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {
+                "source":
+                    "const newProto = navigator.__proto__;"
+                    "delete newProto.webdriver;"
+                    "navigator.__proto__ = newProto;"
+            })
         return cls.__driver
