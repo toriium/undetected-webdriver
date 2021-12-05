@@ -16,21 +16,21 @@ class WebDriverABC(ABC):
     @abstractmethod
     def create_driver(cls): pass
 
-    @classmethod
+    @staticmethod
     @abstractmethod
-    def get_driver_options(cls): pass
+    def __get_driver_options(): pass
 
 
 class OperaWebDriver(WebDriverABC):
     @classmethod
     def create_driver(cls):
-        options = cls.get_driver_options()
+        options = cls.__get_driver_options()
         webdriver_path = f'{WEBDRIVERS_PATH}\\operadriver'
         driver = Opera(executable_path=webdriver_path, options=options)
         return driver
 
-    @classmethod
-    def get_driver_options(cls):
+    @staticmethod
+    def __get_driver_options():
         options = OptionsOpera()
         options.binary_location = r'C:\Users\user\AppData\Local\Programs\Opera GX\opera.exe'
         # options.add_argument('--headless')
@@ -51,13 +51,13 @@ class OperaWebDriver(WebDriverABC):
 class ChomeWebDriver(WebDriverABC):
     @classmethod
     def create_driver(cls):
-        options = cls.get_driver_options()
+        options = cls.__get_driver_options()
         webdriver_path = f'{WEBDRIVERS_PATH}\\chromedriver'
         driver = Chrome(executable_path=webdriver_path, options=options)
         return driver
 
-    @classmethod
-    def get_driver_options(cls):
+    @staticmethod
+    def __get_driver_options():
         options = OptionsChorme()
         options.binary_location = r'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
         # options.add_argument('--headless')
@@ -78,13 +78,13 @@ class ChomeWebDriver(WebDriverABC):
 class FirefoxWebDriver(WebDriverABC):
     @classmethod
     def create_driver(cls):
-        options = cls.get_driver_options()
+        options = cls.__get_driver_options()
         webdriver_path = f'{WEBDRIVERS_PATH}\\geckodriver'
         driver = Firefox(executable_path=webdriver_path, options=options)
         return driver
 
-    @classmethod
-    def get_driver_options(cls):
+    @staticmethod
+    def __get_driver_options():
         options = OptionsFirefox()
         options.binary_location = r'C:\Program Files\Mozilla Firefox\firefox.exe'
         # options.add_argument('--headless')
@@ -114,6 +114,12 @@ class DriverFactory:
         else:
             raise ValueError(f'"{chosen_browser}" is not a valid browser, please choice a valid browser.')
 
+        cls.__execute_scripts_in_driver(chosen_browser=chosen_browser)
+
+        return cls.__driver
+
+    @classmethod
+    def __execute_scripts_in_driver(cls, chosen_browser):
         # execute scripts in browser to not be detected as bot
         cls.__driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
         if chosen_browser != 'firefox':
@@ -123,4 +129,3 @@ class DriverFactory:
                     "delete newProto.webdriver;"
                     "navigator.__proto__ = newProto;"
             })
-        return cls.__driver
