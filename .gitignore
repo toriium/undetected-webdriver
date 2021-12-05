@@ -129,3 +129,5 @@ dmypy.json
 .pyre/
 /chromedriver.exe
 /geckodriver.exe
+/operadriver.exe
+/sha512_sum
