@@ -53,6 +53,7 @@ class ChomeWebDriver(WebDriverABC):
     @classmethod
     def get_driver_options(cls):
         options = OptionsChorme()
+        options.binary_location = r'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
         # options.add_argument('--headless')
         options.add_argument('--incognito')
         options.add_argument('--no-sandbox')
