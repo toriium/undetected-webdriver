@@ -1,6 +1,6 @@
 import time
 
-from webdriver_factory import DriverFactory
+from webdrivers.webdriver_factory import DriverFactory
 
 # driver = DriverFactory.get_driver(chosen_browser='opera')
 # driver = DriverFactory.get_driver(chosen_browser='firefox')

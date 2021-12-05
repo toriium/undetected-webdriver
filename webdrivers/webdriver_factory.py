@@ -1,4 +1,6 @@
+import os
 from abc import ABC, abstractmethod
+
 from selenium.webdriver import Chrome
 from selenium.webdriver import Firefox
 from selenium.webdriver import Opera
@@ -47,7 +49,9 @@ class ChomeWebDriver(WebDriverABC):
     @classmethod
     def create_driver(cls):
         options = cls.get_driver_options()
-        driver = Chrome(options=options)
+        webdriver_path = os.path.dirname(os.path.realpath(__file__))
+        webdriver_path = f'{webdriver_path}\\chromedriver'
+        driver = Chrome(executable_path=webdriver_path, options=options)
         return driver
 
     @classmethod
