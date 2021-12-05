@@ -8,6 +8,8 @@ from selenium.webdriver.opera.options import Options as OptionsOpera
 from selenium.webdriver.chrome.options import Options as OptionsChorme
 from selenium.webdriver.firefox.options import Options as OptionsFirefox
 
+WEBDRIVERS_PATH = os.path.dirname(os.path.realpath(__file__))
+
 
 class WebDriverABC(ABC):
     @classmethod
@@ -23,7 +25,8 @@ class OperaWebDriver(WebDriverABC):
     @classmethod
     def create_driver(cls):
         options = cls.get_driver_options()
-        driver = Opera(options=options)
+        webdriver_path = f'{WEBDRIVERS_PATH}\\operadriver'
+        driver = Opera(executable_path=webdriver_path, options=options)
         return driver
 
     @classmethod
@@ -49,8 +52,7 @@ class ChomeWebDriver(WebDriverABC):
     @classmethod
     def create_driver(cls):
         options = cls.get_driver_options()
-        webdriver_path = os.path.dirname(os.path.realpath(__file__))
-        webdriver_path = f'{webdriver_path}\\chromedriver'
+        webdriver_path = f'{WEBDRIVERS_PATH}\\chromedriver'
         driver = Chrome(executable_path=webdriver_path, options=options)
         return driver
 
@@ -77,7 +79,8 @@ class FirefoxWebDriver(WebDriverABC):
     @classmethod
     def create_driver(cls):
         options = cls.get_driver_options()
-        driver = Firefox(options=options)
+        webdriver_path = f'{WEBDRIVERS_PATH}\\geckodriver'
+        driver = Firefox(executable_path=webdriver_path, options=options)
         return driver
 
     @classmethod
