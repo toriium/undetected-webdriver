@@ -68,8 +68,10 @@ class FirefoxWebDriver(WebDriverABC):
 class DriverFactory:
     @staticmethod
     def get_driver(chosen_browser):
+        __driver = None
         if chosen_browser == 'chrome':
-            return ChomeWebDriver.create_driver()
+            __driver = ChomeWebDriver.create_driver()
+        elif chosen_browser == 'firefox':
+            __driver = FirefoxWebDriver.create_driver()
+        return __driver
 
-        if chosen_browser == 'firefox':
-            return FirefoxWebDriver.create_driver()
