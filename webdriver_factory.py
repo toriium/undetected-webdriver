@@ -66,12 +66,22 @@ class FirefoxWebDriver(WebDriverABC):
 
 
 class DriverFactory:
-    @staticmethod
-    def get_driver(chosen_browser):
-        __driver = None
+    __driver = None
+
+    @classmethod
+    def get_driver(cls, chosen_browser):
         if chosen_browser == 'chrome':
-            __driver = ChomeWebDriver.create_driver()
+            cls.__driver = ChomeWebDriver.create_driver()
         elif chosen_browser == 'firefox':
-            __driver = FirefoxWebDriver.create_driver()
-        return __driver
+            cls.__driver = FirefoxWebDriver.create_driver()
+
+        # execute scripts in browser to not be detected as bot
+        cls.__driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+        cls.__driver.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {
+            "source":
+                "const newProto = navigator.__proto__;"
+                "delete newProto.webdriver;"
+                "navigator.__proto__ = newProto;"
+        })
+        return cls.__driver
 
