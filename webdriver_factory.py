@@ -104,6 +104,8 @@ class DriverFactory:
             cls.__driver = FirefoxWebDriver.create_driver()
         elif chosen_browser == 'opera':
             cls.__driver = OperaWebDriver.create_driver()
+        else:
+            raise ValueError(f'"{chosen_browser}" is not a valid browser, please choice a valid browser.')
 
         # execute scripts in browser to not be detected as bot
         cls.__driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
