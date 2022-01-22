@@ -7,6 +7,7 @@ from selenium.webdriver import Opera
 from selenium.webdriver.opera.options import Options as OptionsOpera
 from selenium.webdriver.chrome.options import Options as OptionsChorme
 from selenium.webdriver.firefox.options import Options as OptionsFirefox
+from selenium_stealth import stealth
 
 WEBDRIVERS_PATH = os.path.dirname(os.path.realpath(__file__))
 
@@ -114,18 +115,18 @@ class DriverFactory:
         else:
             raise ValueError(f'"{chosen_browser}" is not a valid browser, please choice a valid browser.')
 
-        cls.__execute_scripts_in_driver(chosen_browser=chosen_browser)
+        cls.__execute_scripts_in_driver()
 
         return cls.__driver
 
     @classmethod
-    def __execute_scripts_in_driver(cls, chosen_browser):
+    def __execute_scripts_in_driver(cls):
         # execute scripts in browser to not be detected as bot
-        cls.__driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
-        if chosen_browser != 'firefox':
-            cls.__driver.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {
-                "source":
-                    "const newProto = navigator.__proto__;"
-                    "delete newProto.webdriver;"
-                    "navigator.__proto__ = newProto;"
-            })
+        stealth(driver=cls.__driver,
+                languages=["en-US", "en"],
+                vendor="Google Inc.",
+                platform="Win32",
+                webgl_vendor="Intel Inc.",
+                renderer="Intel Iris OpenGL Engine",
+                fix_hairline=True,
+                )
