@@ -115,18 +115,19 @@ class DriverFactory:
         else:
             raise ValueError(f'"{chosen_browser}" is not a valid browser, please choice a valid browser.')
 
-        cls.__execute_scripts_in_driver()
+        cls.__execute_scripts_in_driver(chosen_browser=chosen_browser)
 
         return cls.__driver
 
     @classmethod
-    def __execute_scripts_in_driver(cls):
+    def __execute_scripts_in_driver(cls, chosen_browser: str):
         # execute scripts in browser to not be detected as bot
-        stealth(driver=cls.__driver,
-                languages=["en-US", "en"],
-                vendor="Google Inc.",
-                platform="Win32",
-                webgl_vendor="Intel Inc.",
-                renderer="Intel Iris OpenGL Engine",
-                fix_hairline=True,
-                )
+        if chosen_browser != 'firefox':
+            stealth(driver=cls.__driver,
+                    languages=["en-US", "en"],
+                    vendor="Google Inc.",
+                    platform="Win32",
+                    webgl_vendor="Intel Inc.",
+                    renderer="Intel Iris OpenGL Engine",
+                    fix_hairline=True,
+                    )
