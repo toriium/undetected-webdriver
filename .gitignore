@@ -131,6 +131,7 @@ dmypy.json
 /geckodriver.exe
 /operadriver.exe
 /sha512_sum
+/webdrivers/msedgedriver.exe
 /webdrivers/operadriver.exe
 /webdrivers/sha512_sum
 /webdrivers/geckodriver.exe
