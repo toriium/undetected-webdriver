@@ -1,10 +1,10 @@
 import os
 from abc import ABC, abstractmethod
 
+from selenium.webdriver import Edge
+from selenium.webdriver import Opera
 from selenium.webdriver import Chrome
 from selenium.webdriver import Firefox
-from selenium.webdriver import Opera
-from selenium.webdriver import Edge
 from selenium.webdriver.edge.options import Options as OptionsEdge
 from selenium.webdriver.opera.options import Options as OptionsOpera
 from selenium.webdriver.chrome.options import Options as OptionsChorme
